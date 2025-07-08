@@ -1,36 +1,36 @@
-/* CSS Variables for Theme Management */
 :root {
   --bg-primary: #ffffff;
-  --bg-secondary: #f8f9fa;
+  --bg-secondary: #f7fafd;
   --text-primary: #282c34;
   --text-secondary: #424242;
   --border-color: #e9ecef;
   --button-bg: #1976d2;
   --button-text: #fff;
   --accent: #ff9800;
-  --board-shadow: 0 2px 18px -6px #42424224, 0px 1px 0px #e9ecef;
+  --board-shadow: 0 7px 30px -8px #1976d299, 0 2.5px 18px -6px #42424228, 0 1.5px 0.5px #e9ecef;
 }
 
 [data-theme="dark"] {
-  --bg-primary: #151717;
-  --bg-secondary: #222426;
+  --bg-primary: #14161a;
+  --bg-secondary: #1b2027;
   --text-primary: #fff;
   --text-secondary: #ececec;
   --border-color: #282828;
   --button-bg: #1976d2;
   --button-text: #fff;
   --accent: #ff9800;
-  --board-shadow: 0 2px 18px -6px #222426d9;
+  --board-shadow: 0 7px 26px -7px #26406bd9;
 }
 
 .App {
   text-align: center;
-  background-color: var(--bg-primary);
+  background: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
   transition: background 0.34s, color 0.26s;
 }
 
+/* Header with soft elevation */
 .App-header {
   background: var(--bg-secondary);
   min-height: 100vh;
@@ -43,161 +43,284 @@
   transition: background 0.3s;
   position: relative;
   padding-top: 45px;
+  box-shadow: 0 1.5px 14px 0 #1976d223, 0 2px 32px -10px #f7fafd60;
+  z-index: 0;
 }
 
-/* -- TicTacToe Game Layout -- */
+/* Wrapper around the board */
 .tictactoe-container {
   margin: 0 auto;
   margin-top: 32px;
-  background: var(--bg-primary);
-  border-radius: 22px;
-  box-shadow: 0 4px 26px -10px rgba(30,40,70, 0.11);
-  padding: 2rem 2.2rem 1.5rem 2.2rem;
-  max-width: 384px;
-  width: 97vw;
+  background: linear-gradient(135deg, #fff 70%, #e9eaf8 100%);
+  border-radius: 32px 32px 28px 28px/30px 30px 21px 21px;
+  box-shadow:
+    0 18px 38px -10px #1976d244,
+    0 4px 26px -13px #1976d245,
+    0 3px 2px #fafafa22;
+  padding: 2.2rem 2.6rem 2.2rem 2.6rem;
+  max-width: 410px;
+  width: 99vw;
   min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  perspective: 900px;
+  will-change: transform;
+  transition: box-shadow 0.25s, background 0.21s;
 }
 
-/* Board grid */
+/* Board grid with strong 3D effect */
 .tictactoe-board {
   width: 100%;
-  max-width: 308px;
+  max-width: 316px;
   margin: 0 auto;
   margin-top: 8px;
   margin-bottom: 0;
-  background: var(--bg-secondary);
-  border-radius: 16px;
-  box-shadow: var(--board-shadow);
-  padding: 13px 11px 12px 11px;
+  background: 
+    linear-gradient(120deg, #dde9f9 0, #f7fafd 70%, #f0f5ff 100%);
+  border-radius: 22px;
+  box-shadow:
+    0 14px 38px -14px #1976d277,
+    0 3.5px 12px -5px #42424218,
+    0 1.5px 0.5px #e9ecef;
+  padding: 15px 13px 15px 13px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(3, 1fr);
-  gap: 8px;
+  gap: 12px;
   aspect-ratio: 1/1;
+  transform: perspective(650px) rotateX(12deg);
+  transition: box-shadow 0.22s, transform 0.14s;
+  border: 1.5px solid #d9e7f2;
+  position: relative;
+  z-index: 1;
 }
 
-/* Cell styling */
+/* Cell styling: tactile 3D, interactive */
 .tictactoe-cell {
   width: 100%;
   height: 100%;
   aspect-ratio: 1 / 1;
   cursor: pointer;
-  border-radius: 12px;
-  border: 2px solid #e0e6ef;
-  background: #fff;
-  font-size: 2.3rem;
-  font-weight: 700;
+  border-radius: 14px;
+  border: 2.5px solid #d1d9eb;
+  background: 
+    linear-gradient(145deg, #fafbfe 65%, #e9f2fa 100%);
+  font-size: 2.4rem;
+  font-weight: 800;
   color: var(--text-secondary);
-  box-shadow: 0 2px 8px -4px #24242434, 0 2px 1px #00000012;
+  box-shadow:
+    0 3.5px 12px -4px #1976d243,
+    0 4px 0.7px -4px #ff980025,
+    0 1.1px 1.9px #4242421b;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: background 0.16s, color 0.13s, box-shadow 0.24s;
+  transition: 
+    background 0.13s cubic-bezier(.39,.59,.46,.98),
+    color 0.10s,
+    box-shadow 0.18s,
+    outline 0.09s;
   accent-color: var(--accent);
+  filter: drop-shadow(0px 1.5px 5px #ffd18051);
+  will-change: transform;
+  position: relative;
+  outline: none;
 }
-
+.tictactoe-cell:active:not(:disabled),
+.tictactoe-cell:focus-visible:not(:disabled) {
+  box-shadow:
+    0 5.5px 18px -3px #1976d264,
+    0 2px 9px -5px #ff980060,
+    0 1.1px 1.9px #4242421b;
+  z-index: 5;
+  transform: scale(1.06) perspective(420px) rotateX(11deg) translateY(-2px);
+}
+.tictactoe-cell:hover:not(:disabled) {
+  filter: brightness(1.08);
+  box-shadow:
+    0 11px 18px -5px #1976d24f,
+    0 6px 6px -7px #ff98003a,
+    0 1.1px 1.9px #42424219;
+  transform: scale(1.04) perspective(440px) rotateX(6deg);
+  border-color: var(--accent);
+  outline: 1.5px solid var(--accent);
+}
 .tictactoe-cell:disabled {
   cursor: not-allowed;
-  background: #f7fafd;
+  background: linear-gradient(124deg, #f1f5fa 68%, #e1e9ec 100%);
   color: #bbb;
   opacity: 1;
+  box-shadow: none;
 }
-
 .tictactoe-cell[aria-label*='X'] {
   color: var(--button-bg);
-  text-shadow: 0 3px 16px #1976d22c;
+  text-shadow: 0 7px 42px #1976d233, 0 1.5px 0px var(--button-bg), 0 4px 20px #1976d244;
+  filter: drop-shadow(0 1px 6px #1976d230);
 }
-
 .tictactoe-cell[aria-label*='O'] {
   color: var(--accent);
-  text-shadow: 0 3px 16px #ff980025;
+  text-shadow: 0 7px 30px #ff980035, 0 1.5px 0px var(--accent), 0 4px 20px #ff980048;
+  filter: drop-shadow(0 1px 6px #ff980032);
 }
 
+/* Gameboard animated highlight (optionally for a win) */
+.tictactoe-cell[aria-current="true"] {
+  outline: 4px solid var(--accent);
+  box-shadow: 0 7px 26px -6px #ff980049, 0 2px 4px #FFB30044;
+}
+
+/* Action buttons with deep shadows */
 .tictactoe-btn {
-  background: var(--button-bg);
+  background: linear-gradient(100deg, #1a84f9 70%, #1976d2 92%);
   color: var(--button-text);
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-size: 1rem;
-  padding: 0.75em 1.5em;
-  box-shadow: 0 4px 18px -6px #1976d217;
-  cursor: pointer;
-  transition: background 0.18s, transform 0.16s;
-}
-.tictactoe-btn:hover, .tictactoe-btn:focus {
-  background: #155b99;
-  transform: translateY(-3px) scale(1.02);
-}
-
-.title {
-  font-size: 2.15rem;
+  border-radius: 10px;
   font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 0.13em;
-  color: var(--button-bg);
+  font-size: 1.13rem;
+  padding: 0.89em 2.15em;
+  box-shadow:
+    0 10.5px 36px -7px #1976d239,
+    0px 2.5px 9px #ff980025,
+    0 3px 2px #e9ecef44;
+  cursor: pointer;
+  letter-spacing: 0.06em;
+  transition: box-shadow 0.18s, background 0.14s, transform 0.15s;
+  will-change: transform;
 }
-.status {
-  font-weight: 600;
-  font-size: 1.18rem;
-  min-height: 1.7em;
-}
-
-/* Accessibility: focus styles */
-.tictactoe-cell:focus, .tictactoe-btn:focus, .theme-toggle:focus {
+.tictactoe-btn:focus {
   outline: 2.5px solid var(--accent);
   outline-offset: 1.5px;
+  background: linear-gradient(90deg, #165ca4 85%, #1976d2 100%);
+  transform: scale(1.06) translateY(-2.5px);
+  box-shadow:
+    0 18px 40px -8px #1976d249,
+    0 4px 18px -7px #ff980045;
+}
+.tictactoe-btn:hover {
+  background: linear-gradient(106deg, #165ca4 80%, #1565c0 100%);
+  transform: translateY(-4px) scale(1.04);
+  box-shadow:
+    0 15px 36px -9px #1976d248,
+    0 6px 6px -7px #ff98003a,
+    0 1.1px 1.9px #42424219;
+  filter: brightness(1.08);
 }
 
-/* Responsive design */
+/* Title with subtle 3D, accent underline */
+.title {
+  font-size: 2.34rem;
+  font-weight: 900;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.23em;
+  color: var(--button-bg);
+  text-shadow: 0 4.5px 22px #1976d223, 0 2px 0 #f6f4ff;
+  position: relative;
+  perspective: 210px;
+}
+.title::after {
+  content: "";
+  display: block;
+  height: 5px;
+  width: 42px;
+  background: linear-gradient(90deg, var(--accent) 70%, #f7c06b 97%);
+  margin: 0.12em auto 0 auto;
+  border-radius: 4px;
+  opacity: 0.67;
+  box-shadow: 0 2.5px 8px #ff980022;
+}
+
+/* Player status with 3D lifted effect */
+.status {
+  font-weight: 800;
+  font-size: 1.21rem;
+  min-height: 1.9em;
+  background: linear-gradient(89deg, #fefefe 84%, #e3f0ff 100%);
+  padding: 0.73em 1.4em;
+  border-radius: 13px;
+  color: var(--text-secondary);
+  box-shadow:
+    0 4px 20px -5px #1976d248,
+    0 8px 24px -12px #ff980045;
+  margin-bottom: 22px;
+  margin-top: 2px;
+  letter-spacing: 0.01em;
+  transition: box-shadow 0.17s, background 0.11s, color 0.12s;
+}
+
+/* Accessibility focused: strong focus ring/highlight */
+.tictactoe-cell:focus, .tictactoe-btn:focus, .theme-toggle:focus {
+  outline: 2.5px solid var(--accent) !important;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 4px #ffe0b2bb;
+}
+
+/* Responsive design for game container and board */
 @media (max-width: 530px) {
   .tictactoe-container {
-    padding: 13vw 2vw 2.5vw 2vw;
+    padding: 6vw 2vw 2vw 2vw;
     max-width: 99vw;
     min-width: 0;
-    border-radius: 16px;
+    border-radius: 18px 18px 12px 12px/19px 19px 15px 15px;
   }
   .tictactoe-board {
-    max-width: calc(96vw - 34px);
-    padding: 7px 4px 8px 4px;
-    gap: 5px;
+    max-width: 96vw;
+    padding: 5vw 2vw 7vw 2vw;
+    gap: 5.5px;
   }
 }
-@media (max-width: 372px) {
+@media (max-width: 386px) {
   .tictactoe-container {
     margin-top: 8px;
-    padding: 4vw 0vw 4vw 0vw;
+    padding: 3vw 0vw 3vw 0vw;
   }
 }
 
+/* Theme switcher button (3D, subtle) */
 .theme-toggle {
   position: absolute;
   top: 20px;
   right: 20px;
-  background-color: var(--button-bg);
+  background: linear-gradient(98deg, #1876d8 85%, #1976d2 100%);
   color: var(--button-text);
   border: none;
-  border-radius: 8px;
-  padding: 10px 20px;
+  border-radius: 10px;
+  padding: 10px 22px;
   font-size: 14px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
-  transition: all 0.3s ease;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  z-index: 1;
+  transition: all 0.2s cubic-bezier(.39,.64,.46,.98);
+  box-shadow: 0 3px 16px -2px #1976d239, 0 2px 5px rgba(0,0,0,0.03);
+  z-index: 11;
 }
-
-.theme-toggle:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
-  opacity: 0.9;
+.theme-toggle:hover,
+.theme-toggle:focus {
+  background: linear-gradient(92deg, #1565c0 70%, #1976d2 100%);
+  filter: brightness(1.10);
+  transform: translateY(-2.5px) scale(1.04);
+  box-shadow: 0 7px 22px -3px #1976d239, 0 7px 9px -7px #ff980038;
 }
-
 .theme-toggle:active {
   transform: translateY(0);
+}
+
+@media (max-width: 768px) {
+  .theme-toggle {
+    top: 10px;
+    right: 6px;
+    padding: 8px 14px;
+    font-size: 13px;
+  }
+}
+
+/* Adjust win/draw current player label */
+.current-player-label {
+  margin-top: 18px;
+  font-size: 0.99rem;
+  color: var(--text-secondary);
+  opacity: 0.92;
+  background: none;
+  text-shadow: 0 0 2.5px #1976d210;
 }
 
 /* Remove unwanted logo, app-link, etc. if present */
@@ -205,21 +328,4 @@
   display: none !important;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-/* Responsive design for mobile */
-@media (max-width: 768px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
-    padding: 8px 16px;
-    font-size: 12px;
-  }
-}
+@keyframes App-logo-spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }

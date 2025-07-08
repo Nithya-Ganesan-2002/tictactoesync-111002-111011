@@ -110,16 +110,21 @@ function App() {
         {theme === 'light' ? '🌙 Dark' : '☀️ Light'}
       </button>
       <div className="tictactoe-container">
-        <h1 className="title" style={{color:COLORS.primary, marginBottom:8}}>Tic Tac Toe</h1>
-        <div className="status" style={{
-            marginBottom:'1.5rem', 
-            fontSize:'1.25rem',
-            fontWeight:600,
-            color:winner ? COLORS.accent : COLORS.secondary
-        }}>
+        <h1 className="title">Tic Tac Toe</h1>
+        <div
+          className="status"
+          aria-live="polite"
+          style={{
+            // Styles purely for fallback; main style in CSS
+            marginBottom: 0,
+            marginTop: 2,
+            background: "none",
+            boxShadow: "none"
+          }}
+          >
           {status}
         </div>
-        <GameBoard 
+        <GameBoard
           board={board}
           onCellClick={handleMove}
           winner={winner}
@@ -130,28 +135,20 @@ function App() {
           marginTop:'1.75rem',
           display:'flex',
           justifyContent:'center',
-          gap:'1.25rem',
+          gap:'1.15rem',
           flexWrap:'wrap'
         }}>
-          <button 
+          <button
             className="tictactoe-btn"
-            style={{
-              background:COLORS.primary,
-              color:'#fff',
-              border:'none',
-              borderRadius:8,
-              fontWeight:600,
-              fontSize:'1rem',
-              padding:'0.75em 1.75em',
-              boxShadow:'0 4px 18px -6px #1976d230',
-              cursor:'pointer'
-            }}
+            type="button"
+            tabIndex={0}
             onClick={handleReset}
+            aria-label="Reset the game"
           >
             Reset Game
           </button>
         </div>
-        <div style={{marginTop:16, fontSize:'0.95rem', color: COLORS.secondary, opacity:0.87}}>Current player: <span style={{color: COLORS.accent, fontWeight:500}}>{currentPlayer}</span></div>
+        <div className="current-player-label">Current player: <span style={{color: COLORS.accent, fontWeight:500}}>{currentPlayer}</span></div>
       </div>
       </header>
     </div>
@@ -190,7 +187,10 @@ function GameBoard({ board, onCellClick, winner, currentPlayer, disabled }) {
   );
 }
 
-// PUBLIC_INTERFACE
+/**
+ * PUBLIC_INTERFACE
+ * Custom 3D cell for Tic Tac Toe board.
+ */
 function BoardCell({ value, onClick, disabled, highlight, isWinningCell }) {
   return (
     <button
@@ -198,22 +198,13 @@ function BoardCell({ value, onClick, disabled, highlight, isWinningCell }) {
       onClick={onClick}
       disabled={disabled}
       aria-label={value ? `Cell: ${value}` : `Empty cell`}
+      aria-current={isWinningCell ? "true" : undefined}
+      tabIndex={0}
       style={{
-        // Modern style: big, elevated, responsive
-        width:'100%', height:'100%',
-        aspectRatio:'1',
-        fontSize:'2.3rem',
-        fontWeight:700,
-        color: value === PLAYER.X ? COLORS.primary : value === PLAYER.O ? COLORS.accent : COLORS.secondary,
-        background:disabled && value ? '#f7fafd' : '#fff',
-        border:`2.5px solid ${COLORS.secondary}22`,
-        borderRadius:12,
-        boxShadow: value ? '0 2px 8px -4px #42424233, 0 2px 1px #00000010' : '',
-        display:'flex',
-        alignItems:'center',
-        justifyContent:'center',
-        cursor:disabled ? 'not-allowed' : 'pointer',
-        transition:'all 0.17s cubic-bezier(.4,2,.6,.99)'
+        // All major visual effects handled in CSS
+        color: value === PLAYER.X ? COLORS.primary
+            : value === PLAYER.O ? COLORS.accent
+            : COLORS.secondary,
       }}
     >
       {value}
