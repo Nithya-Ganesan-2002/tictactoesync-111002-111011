@@ -1,24 +1,26 @@
 /* CSS Variables for Theme Management */
 :root {
-  /* Light theme colors */
   --bg-primary: #ffffff;
   --bg-secondary: #f8f9fa;
   --text-primary: #282c34;
-  --text-secondary: #61dafb;
+  --text-secondary: #424242;
   --border-color: #e9ecef;
-  --button-bg: #007bff;
-  --button-text: #ffffff;
+  --button-bg: #1976d2;
+  --button-text: #fff;
+  --accent: #ff9800;
+  --board-shadow: 0 2px 18px -6px #42424224, 0px 1px 0px #e9ecef;
 }
 
 [data-theme="dark"] {
-  /* Dark theme colors */
-  --bg-primary: #1a1a1a;
-  --bg-secondary: #282c34;
-  --text-primary: #ffffff;
-  --text-secondary: #61dafb;
-  --border-color: #404040;
-  --button-bg: #0056b3;
-  --button-text: #ffffff;
+  --bg-primary: #151717;
+  --bg-secondary: #222426;
+  --text-primary: #fff;
+  --text-secondary: #ececec;
+  --border-color: #282828;
+  --button-bg: #1976d2;
+  --button-text: #fff;
+  --accent: #ff9800;
+  --board-shadow: 0 2px 18px -6px #222426d9;
 }
 
 .App {
@@ -26,36 +28,149 @@
   background-color: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+  transition: background 0.34s, color 0.26s;
 }
 
 .App-header {
-  background-color: var(--bg-secondary);
+  background: var(--bg-secondary);
   min-height: 100vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+  justify-content: flex-start;
+  font-size: 16px;
   color: var(--text-primary);
-  transition: background-color 0.3s ease;
+  transition: background 0.3s;
   position: relative;
+  padding-top: 45px;
 }
 
-.App-link {
+/* -- TicTacToe Game Layout -- */
+.tictactoe-container {
+  margin: 0 auto;
+  margin-top: 32px;
+  background: var(--bg-primary);
+  border-radius: 22px;
+  box-shadow: 0 4px 26px -10px rgba(30,40,70, 0.11);
+  padding: 2rem 2.2rem 1.5rem 2.2rem;
+  max-width: 384px;
+  width: 97vw;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Board grid */
+.tictactoe-board {
+  width: 100%;
+  max-width: 308px;
+  margin: 0 auto;
+  margin-top: 8px;
+  margin-bottom: 0;
+  background: var(--bg-secondary);
+  border-radius: 16px;
+  box-shadow: var(--board-shadow);
+  padding: 13px 11px 12px 11px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 8px;
+  aspect-ratio: 1/1;
+}
+
+/* Cell styling */
+.tictactoe-cell {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  cursor: pointer;
+  border-radius: 12px;
+  border: 2px solid #e0e6ef;
+  background: #fff;
+  font-size: 2.3rem;
+  font-weight: 700;
   color: var(--text-secondary);
-  transition: color 0.3s ease;
+  box-shadow: 0 2px 8px -4px #24242434, 0 2px 1px #00000012;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.16s, color 0.13s, box-shadow 0.24s;
+  accent-color: var(--accent);
+}
+
+.tictactoe-cell:disabled {
+  cursor: not-allowed;
+  background: #f7fafd;
+  color: #bbb;
+  opacity: 1;
+}
+
+.tictactoe-cell[aria-label*='X'] {
+  color: var(--button-bg);
+  text-shadow: 0 3px 16px #1976d22c;
+}
+
+.tictactoe-cell[aria-label*='O'] {
+  color: var(--accent);
+  text-shadow: 0 3px 16px #ff980025;
+}
+
+.tictactoe-btn {
+  background: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  font-size: 1rem;
+  padding: 0.75em 1.5em;
+  box-shadow: 0 4px 18px -6px #1976d217;
+  cursor: pointer;
+  transition: background 0.18s, transform 0.16s;
+}
+.tictactoe-btn:hover, .tictactoe-btn:focus {
+  background: #155b99;
+  transform: translateY(-3px) scale(1.02);
+}
+
+.title {
+  font-size: 2.15rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 0.13em;
+  color: var(--button-bg);
+}
+.status {
+  font-weight: 600;
+  font-size: 1.18rem;
+  min-height: 1.7em;
+}
+
+/* Accessibility: focus styles */
+.tictactoe-cell:focus, .tictactoe-btn:focus, .theme-toggle:focus {
+  outline: 2.5px solid var(--accent);
+  outline-offset: 1.5px;
+}
+
+/* Responsive design */
+@media (max-width: 530px) {
+  .tictactoe-container {
+    padding: 13vw 2vw 2.5vw 2vw;
+    max-width: 99vw;
+    min-width: 0;
+    border-radius: 16px;
+  }
+  .tictactoe-board {
+    max-width: calc(96vw - 34px);
+    padding: 7px 4px 8px 4px;
+    gap: 5px;
+  }
+}
+@media (max-width: 372px) {
+  .tictactoe-container {
+    margin-top: 8px;
+    padding: 4vw 0vw 4vw 0vw;
+  }
 }
 
 .theme-toggle {
@@ -72,6 +187,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  z-index: 1;
 }
 
 .theme-toggle:hover {
@@ -82,6 +198,11 @@
 
 .theme-toggle:active {
   transform: translateY(0);
+}
+
+/* Remove unwanted logo, app-link, etc. if present */
+.App-logo, .App-link {
+  display: none !important;
 }
 
 @keyframes App-logo-spin {
